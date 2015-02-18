@@ -91,6 +91,10 @@ function configure_glusterfs_cinder {
         sudo gluster --mode=script volume start $vol_name
         sudo gluster --mode=script volume set $vol_name server.allow-insecure on
     done
+	local n_policy_file=$NOVA_CONF_DIR/policy.json
+	sed -i -e '/compute_extension:os-assisted-volume-snapshots:create/ s/rule:admin_api/YAHOO/' $n_policy_file
+	sed -i -e '/compute_extension:os-assisted-volume-snapshots:delete/ s/rule:admin_api/GOOGLE/' $n_policy_file
+	exit
 }
 
 # install_glusterfs() - Collect source and prepare
